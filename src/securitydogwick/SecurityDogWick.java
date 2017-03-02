@@ -1,7 +1,6 @@
 package securitydogwick;
 
 public class SecurityDogWick extends javax.swing.JFrame {
-
     private boolean stop;
     private WaitThread wt1;
     private OwnerThread OwnerTh;
@@ -147,8 +146,10 @@ public class SecurityDogWick extends javax.swing.JFrame {
         lbPoliceS = new javax.swing.JLabel();
         lbThifeS = new javax.swing.JLabel();
         btThife = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("John Wick");
 
         btStart.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btStart.setText("START");
@@ -207,6 +208,8 @@ public class SecurityDogWick extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("by panachai");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -230,7 +233,9 @@ public class SecurityDogWick extends javax.swing.JFrame {
                             .addComponent(lbDogS)
                             .addComponent(lbPoliceS)
                             .addComponent(lbThifeS))))
-                .addGap(96, 96, 96))
+                .addGap(52, 52, 52)
+                .addComponent(jLabel1)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -253,33 +258,39 @@ public class SecurityDogWick extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbHeader)
-                .addGap(18, 18, 18)
-                .addComponent(lbShowClock)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbStatus)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbOwner)
-                    .addComponent(lbOwnerS))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDog)
-                    .addComponent(lbDogS))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbPolice)
-                    .addComponent(lbPoliceS))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbThife)
-                    .addComponent(lbThifeS))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btThife)
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btStart)
-                    .addComponent(btStop))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lbShowClock)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbOwner)
+                            .addComponent(lbOwnerS))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDog)
+                            .addComponent(lbDogS))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbPolice)
+                            .addComponent(lbPoliceS))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbThife)
+                            .addComponent(lbThifeS))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btThife)
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btStart)
+                            .addComponent(btStop))
+                        .addContainerGap(16, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addContainerGap())))
         );
 
         pack();
@@ -350,6 +361,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     private javax.swing.JButton btStart;
     private javax.swing.JButton btStop;
     private javax.swing.JButton btThife;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbDog;
     private javax.swing.JLabel lbDogS;
     private javax.swing.JLabel lbHeader;
