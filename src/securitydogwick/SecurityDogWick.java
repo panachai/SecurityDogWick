@@ -35,9 +35,11 @@ public class SecurityDogWick extends javax.swing.JFrame {
         btStart = new javax.swing.JButton();
         btStop = new javax.swing.JButton();
         lblShowClock = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btStart.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btStart.setText("START");
         btStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -45,6 +47,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
             }
         });
 
+        btStop.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btStop.setText("STOP");
         btStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -52,34 +55,44 @@ public class SecurityDogWick extends javax.swing.JFrame {
             }
         });
 
-        lblShowClock.setText("jLabel1");
+        lblShowClock.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        lblShowClock.setText("00:00");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabel1.setText("Security Dog Wick");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btStart)
+                .addGap(73, 73, 73)
+                .addComponent(btStop)
+                .addGap(111, 111, 111))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(btStart)
-                        .addGap(105, 105, 105)
-                        .addComponent(btStop))
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
+                        .addGap(171, 171, 171)
                         .addComponent(lblShowClock)))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(lblShowClock)
-                .addGap(91, 91, 91)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btStart)
-                    .addComponent(btStop))
-                .addContainerGap(141, Short.MAX_VALUE))
+                    .addComponent(btStop)
+                    .addComponent(btStart))
+                .addContainerGap())
         );
 
         pack();
@@ -133,6 +146,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btStart;
     private javax.swing.JButton btStop;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblShowClock;
     // End of variables declaration//GEN-END:variables
 }
