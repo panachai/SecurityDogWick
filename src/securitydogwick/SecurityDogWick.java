@@ -252,16 +252,16 @@ public class SecurityDogWick extends javax.swing.JFrame {
         lbThife.setText("THIFE");
 
         lbOwnerS.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        lbOwnerS.setText("______");
+        lbOwnerS.setText("____________");
 
         lbDogS.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        lbDogS.setText("______");
+        lbDogS.setText("____________");
 
         lbPoliceS.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        lbPoliceS.setText("______");
+        lbPoliceS.setText("____________");
 
         lbThifeS.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        lbThifeS.setText("______");
+        lbThifeS.setText("____________");
 
         btThife.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         btThife.setText("THIFE START");
@@ -285,23 +285,30 @@ public class SecurityDogWick extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btStart)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btStop))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addComponent(btStop)
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbOwner)
                             .addComponent(lbDog)
                             .addComponent(lbPolice)
                             .addComponent(lbThife))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbOwnerS)
                             .addComponent(lbDogS)
+                            .addComponent(lbOwnerS)
                             .addComponent(lbPoliceS)
-                            .addComponent(lbThifeS))))
-                .addGap(52, 52, 52)
-                .addComponent(jLabel1)
+                            .addComponent(lbThifeS))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lbDay)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbShowClock)
+                .addGap(65, 65, 65))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -309,18 +316,11 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         .addComponent(lbHeader))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(110, 110, 110)
-                        .addComponent(lbStatus)))
+                        .addComponent(lbStatus))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(btThife)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btThife)
-                .addGap(113, 113, 113))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(lbDay)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbShowClock)
-                .addGap(65, 65, 65))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
