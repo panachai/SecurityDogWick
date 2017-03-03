@@ -1,6 +1,7 @@
 package securitydogwick;
 
 public class SecurityDogWick extends javax.swing.JFrame {
+
     private boolean stop;
     private WaitThread wt1;
     private OwnerThread OwnerTh;
@@ -8,27 +9,78 @@ public class SecurityDogWick extends javax.swing.JFrame {
     private PoliceThread PoliceTh;
     private ThifeThread ThifeTh;
 
+    private Object objOwner;
+    private Object objDog;
+    private Object objPolice;
+    private Object objThife;
+
+    public SecurityDogWick() {
+        initComponents();
+        ThifeTh = new ThifeThread();
+        wt1 = new WaitThread();
+        OwnerTh = new OwnerThread();
+        DogTh = new DogThread();
+        ThifeTh = new ThifeThread();
+        PoliceTh = new PoliceThread();
+
+        objOwner = new Object();
+        objDog = new Object();
+        objPolice = new Object();
+        objThife = new Object();
+    }
+
     class WaitThread extends Thread {
 
         public void run() {
 //Sleep -> Interrupted ปกติ
             int i = 0;
             int hour = 0;
+            int day = 0;
             while (!stop) {
                 try {
                     lbShowClock.setText(String.format("%02d", hour) + ":" + String.format("%02d", i));
                     i++;
-                    Thread.sleep(1000);
+                    Thread.sleep(20);
                     if (i >= 60) {
                         i = 0;
                         hour++;
-                    }
 
+                        if (hour == 8) {
+
+                            synchronized (objDog) {
+                                objDog.notify();
+                            }
+                            synchronized (objThife) {
+                                objThife.notify();
+                            }
+                        }
+                        if (hour == 16) {
+                            synchronized (objOwner) {
+                                objOwner.notify();
+                            }
+                        }
+                    }
+                    if (hour >= 24) {
+                        day++;
+                        hour = 0;
+                        lbDay.setText("DAY : " + String.format("%02d", day));
+                        synchronized (objOwner) { //เริ่มวันใหม่ ให้ถัด notify ไปรอบนึง
+                            objOwner.notify();
+                        }
+                        synchronized (objDog) {
+                            objDog.notify();
+                        }
+                        synchronized (objPolice) {
+                            objPolice.notify();
+                        }
+                        synchronized (objThife) {
+                            objThife.notify();
+                        }
+                    }
                 } catch (InterruptedException ie) {
                     i = 0;
                 }
             }
-
         }
     }
 
@@ -38,9 +90,13 @@ public class SecurityDogWick extends javax.swing.JFrame {
             while (!stop) {
                 try {
                     lbOwnerS.setText("wake");
-                    Thread.sleep(16000);
+                    synchronized (objOwner) {
+                        objOwner.wait();
+                    }
                     lbOwnerS.setText("sleep");
-                    Thread.sleep(8000);
+                    synchronized (objOwner) {
+                        objOwner.wait();
+                    }
                 } catch (InterruptedException ie) {
 
                     try {
@@ -64,9 +120,13 @@ public class SecurityDogWick extends javax.swing.JFrame {
             while (!stop) {
                 try {
                     lbDogS.setText("sleep");
-                    Thread.sleep(8000);
+                    synchronized (objDog) {
+                        objDog.wait();
+                    }
                     lbDogS.setText("wake");
-                    Thread.sleep(16000);
+                    synchronized (objDog) {
+                        objDog.wait();
+                    }
                 } catch (InterruptedException ie) {
 
                     try {
@@ -90,7 +150,9 @@ public class SecurityDogWick extends javax.swing.JFrame {
             while (!stop) {
                 try {
                     lbPoliceS.setText("wake");
-                    Thread.sleep(24000);
+                    synchronized (objPolice) {
+                        objPolice.wait();
+                    }
 
                 } catch (InterruptedException ie) {
 
@@ -113,19 +175,19 @@ public class SecurityDogWick extends javax.swing.JFrame {
                 try {
                     lbThifeS.setText("sleep");
                     btThife.setEnabled(false);
-                    Thread.sleep(8000);
+                    synchronized (objThife) {
+                        objThife.wait();
+                    }
                     lbThifeS.setText("wake");
                     btThife.setEnabled(true);
-                    Thread.sleep(16000);
+                    synchronized (objThife) {
+                        objThife.wait();
+                    }
                 } catch (InterruptedException ie) {
                     lbThifeS.setText("Capture");
                 }
             }
         }
-    }
-
-    public SecurityDogWick() {
-        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -147,6 +209,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
         lbThifeS = new javax.swing.JLabel();
         btThife = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        lbDay = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("John Wick");
@@ -210,6 +273,9 @@ public class SecurityDogWick extends javax.swing.JFrame {
 
         jLabel1.setText("by panachai");
 
+        lbDay.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
+        lbDay.setText("DAY : 00");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -243,15 +309,18 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         .addComponent(lbHeader))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(110, 110, 110)
-                        .addComponent(lbStatus))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(lbShowClock)))
+                        .addComponent(lbStatus)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btThife)
                 .addGap(113, 113, 113))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lbDay)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbShowClock)
+                .addGap(65, 65, 65))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,7 +330,9 @@ public class SecurityDogWick extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(lbShowClock)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbDay)
+                            .addComponent(lbShowClock))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbStatus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -286,7 +357,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btStart)
                             .addComponent(btStop))
-                        .addContainerGap(16, Short.MAX_VALUE))
+                        .addContainerGap(26, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
@@ -300,15 +371,10 @@ public class SecurityDogWick extends javax.swing.JFrame {
         stop = false;
         lbDogS.setForeground(new java.awt.Color(0, 0, 0));
         lbStatus.setForeground(new java.awt.Color(0, 0, 0));
-        wt1 = new WaitThread();
         wt1.start();
-        OwnerTh = new OwnerThread();
         OwnerTh.start();
-        DogTh = new DogThread();
         DogTh.start();
-        PoliceTh = new PoliceThread();
         PoliceTh.start();
-        ThifeTh = new ThifeThread();
         ThifeTh.start();
     }//GEN-LAST:event_btStartActionPerformed
 
@@ -362,6 +428,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     private javax.swing.JButton btStop;
     private javax.swing.JButton btThife;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lbDay;
     private javax.swing.JLabel lbDog;
     private javax.swing.JLabel lbDogS;
     private javax.swing.JLabel lbHeader;
