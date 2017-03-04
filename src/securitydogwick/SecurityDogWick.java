@@ -2,12 +2,17 @@ package securitydogwick;
 
 public class SecurityDogWick extends javax.swing.JFrame {
 
+    private int checkStart;
+
     private boolean stop;
+    private boolean stopIn;
     private WaitThread wt1;
     private OwnerThread OwnerTh;
     private DogThread DogTh;
     private PoliceThread PoliceTh;
     private ThifeThread ThifeTh;
+
+    private Object objBtStop;
 
     private Object objOwner;
     private Object objDog;
@@ -16,17 +21,22 @@ public class SecurityDogWick extends javax.swing.JFrame {
 
     public SecurityDogWick() {
         initComponents();
-        ThifeTh = new ThifeThread();
+        stopIn = false;
         wt1 = new WaitThread();
+
+        checkStart = 0;
         OwnerTh = new OwnerThread();
         DogTh = new DogThread();
-        ThifeTh = new ThifeThread();
         PoliceTh = new PoliceThread();
+        ThifeTh = new ThifeThread();
 
+        objBtStop = new Object();
         objOwner = new Object();
         objDog = new Object();
         objPolice = new Object();
         objThife = new Object();
+        
+        btThife.setEnabled(false);
     }
 
     class WaitThread extends Thread {
@@ -36,11 +46,17 @@ public class SecurityDogWick extends javax.swing.JFrame {
             int i = 0;
             int hour = 0;
             int day = 0;
-            while (!stop) {
+            while (1 == 1) {
                 try {
+                    if (stopIn) {
+                        synchronized (objBtStop) {
+                            objBtStop.wait();
+                        }
+                    }
+
                     lbShowClock.setText(String.format("%02d", hour) + ":" + String.format("%02d", i));
                     i++;
-                    Thread.sleep(20);
+                    Thread.sleep(10);
                     if (i >= 60) {
                         i = 0;
                         hour++;
@@ -60,11 +76,13 @@ public class SecurityDogWick extends javax.swing.JFrame {
                             }
                         }
                     }
-                    if (hour >= 24) {
+                    if (hour == 24) {
                         day++;
                         hour = 0;
                         lbDay.setText("DAY : " + String.format("%02d", day));
-                        synchronized (objOwner) { //เริ่มวันใหม่ ให้ถัด notify ไปรอบนึง
+
+                        //เริ่มวันใหม่ ให้ถัด notify ไปรอบนึง
+                        synchronized (objOwner) {
                             objOwner.notify();
                         }
                         synchronized (objDog) {
@@ -87,7 +105,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     class OwnerThread extends Thread {
 
         public void run() {
-            while (!stop) {
+            while (1 == 1) {
                 try {
                     lbOwnerS.setText("wake");
                     synchronized (objOwner) {
@@ -106,6 +124,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         Thread.sleep(1000);
                         lbOwnerS.setText("Waiting Police");
                         PoliceTh.interrupt();
+                        break;
                     } catch (InterruptedException ex) {
 
                     }
@@ -117,7 +136,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     class DogThread extends Thread {
 
         public void run() {
-            while (!stop) {
+            while (1 == 1) {
                 try {
                     lbDogS.setText("sleep");
                     synchronized (objDog) {
@@ -135,6 +154,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         lbDogS.setForeground(new java.awt.Color(255, 0, 0));
                         lbDogS.setText("bark bark!!");
                         OwnerTh.interrupt();
+                        break;
                     } catch (InterruptedException ex) {
 
                     }
@@ -147,7 +167,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     class PoliceThread extends Thread {
 
         public void run() {
-            while (!stop) {
+            while (1 == 1) {
                 try {
                     lbPoliceS.setText("wake");
                     synchronized (objPolice) {
@@ -161,6 +181,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         Thread.sleep(1000);
                         lbPoliceS.setText("Capture Thife");
                         ThifeTh.interrupt();
+                        break;
                     } catch (InterruptedException ex) {
                     }
                 }
@@ -171,7 +192,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
     class ThifeThread extends Thread {
 
         public void run() {
-            while (!stop) {
+            while (1 == 1) {
                 try {
                     lbThifeS.setText("sleep");
                     btThife.setEnabled(false);
@@ -185,6 +206,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
                     }
                 } catch (InterruptedException ie) {
                     lbThifeS.setText("Capture");
+                    break;
                 }
             }
         }
@@ -368,23 +390,49 @@ public class SecurityDogWick extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartActionPerformed
+        btStart.setEnabled(false);
+        btStop.setEnabled(true);
+
         stop = false;
         lbDogS.setForeground(new java.awt.Color(0, 0, 0));
         lbStatus.setForeground(new java.awt.Color(0, 0, 0));
-        wt1.start();
-        OwnerTh.start();
-        DogTh.start();
-        PoliceTh.start();
-        ThifeTh.start();
+
+        //เช็คให้กด start thread ครั้งเดียว
+        if (checkStart == 0) {
+
+            wt1.start();
+            OwnerTh.start();
+            DogTh.start();
+            PoliceTh.start();
+            ThifeTh.start();
+            checkStart++;
+        }
+
+        //ใช้เช็คเปิดปิด thread time
+        stopIn = false;
+        synchronized (objBtStop) {
+            objBtStop.notify();
+        }
+
     }//GEN-LAST:event_btStartActionPerformed
 
     private void btStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStopActionPerformed
-        stop = true;
+        //stop = true;
+
+        stopIn = true;
+
+        btStart.setEnabled(true);
+        btStop.setEnabled(false);
         //เพิ่มการหยุดที่ถูกต้อง
     }//GEN-LAST:event_btStopActionPerformed
 
     private void btThifeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btThifeActionPerformed
         DogTh.interrupt();
+        
+        stopIn = true;
+        btStart.setEnabled(false);
+        btStop.setEnabled(false);
+        
         stop = true;
     }//GEN-LAST:event_btThifeActionPerformed
 
