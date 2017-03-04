@@ -35,7 +35,7 @@ public class SecurityDogWick extends javax.swing.JFrame {
         objDog = new Object();
         objPolice = new Object();
         objThife = new Object();
-        
+
         btThife.setEnabled(false);
     }
 
@@ -96,7 +96,8 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         }
                     }
                 } catch (InterruptedException ie) {
-                    i = 0;
+                    ThifeTh.interrupt();
+                    break;
                 }
             }
         }
@@ -180,7 +181,8 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         lbPoliceS.setText("Go to home");
                         Thread.sleep(1000);
                         lbPoliceS.setText("Capture Thife");
-                        ThifeTh.interrupt();
+                        lbThifeS.setText("Capture");
+                        
                         break;
                     } catch (InterruptedException ex) {
                     }
@@ -205,7 +207,9 @@ public class SecurityDogWick extends javax.swing.JFrame {
                         objThife.wait();
                     }
                 } catch (InterruptedException ie) {
-                    lbThifeS.setText("Capture");
+                    DogTh.interrupt();
+                    lbThifeS.setText("steal");
+
                     break;
                 }
             }
@@ -427,12 +431,12 @@ public class SecurityDogWick extends javax.swing.JFrame {
     }//GEN-LAST:event_btStopActionPerformed
 
     private void btThifeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btThifeActionPerformed
-        DogTh.interrupt();
-        
-        stopIn = true;
+        wt1.interrupt();
+
+        //stopIn = true;
         btStart.setEnabled(false);
         btStop.setEnabled(false);
-        
+
         stop = true;
     }//GEN-LAST:event_btThifeActionPerformed
 
